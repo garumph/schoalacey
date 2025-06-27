@@ -1,46 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>SCHOA Home Page</title>
-    <meta name="description" content="Bitnami: Open Source. Simplified.">
-    <meta name="author" content="Bitnami">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCHOA - South Cove Homeowners Association</title>
+    <meta name="description" content="South Cove Homeowners Association - Community information, meeting minutes, budgets, and neighborhood events">
+    <meta name="author" content="SCHOA">
     <style>
-        h1 {text-align: center;}
-        h2 {text-align: center;}
-	h3 {text-align: center;}
-	body { font-size: 20px;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 200% 0; }
+            50% { background-position: -200% 0; }
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .news-banner {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 24px rgba(231, 76, 60, 0.3);
+            text-align: center;
+        }
+
+        .news-banner a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3em;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .news-banner a:hover {
+            background: white;
+            color: #e74c3c;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .events-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .events-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .event-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .event-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+
+        .event-title {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin: 8px 0;
+        }
+
+        .event-details {
+            color: #7f8c8d;
+            font-size: 0.95em;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .aurora-image {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .aurora-image img {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .aurora-caption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+
+        .quick-links {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .quick-links h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .quick-link {
+            display: block;
+            padding: 8px 0;
+            color: #3498db;
+            text-decoration: none;
+            border-bottom: 1px solid #ecf0f1;
+            transition: color 0.3s ease;
+        }
+
+        .quick-link:hover {
+            color: #2980b9;
+            padding-left: 10px;
+        }
+
+        .documents-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .documents-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 10px;
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .document-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #27ae60;
+        }
+
+        .document-category h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .document-category ul {
+            list-style: none;
+        }
+
+        .document-category li {
+            margin-bottom: 8px;
+        }
+
+        .document-category a {
+            color: #27ae60;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .document-category a:hover {
+            color: #219a52;
+            padding-left: 10px;
+        }
+
+        .document-category a::before {
+            content: '📄';
+            margin-right: 10px;
+        }
+
+        .external-link::before {
+            content: '🔗' !important;
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .contact-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .document-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
     </style>
-  </head>
-  <body>
-	  <h1>Welcome to the SCHOA Home Page</h1>
-	  <hr>
-	  <h2><a href="https://schoalacey.com/newsletter-2.docx">SCHOA News</a></h2>
-	  <h2>Next Board meeting : Tuesday, July 22, 2025, at the Kirschner home, 8025 68th Ave, at 7:00 p.m. </h2>
-	  <h3>Walk About/Talk About walk, every Saturday at 10:00 AM, corner of Mirror Court & 68th Loop, Come meet your neighbors and get some exercise.</h3>
-	  <h3>PLA Flotilla July 13, 2025</h3>
-	  <h3>South Cove Summer Picnic, August 17, 2025</h3>
-	  <img src=aurora.jpeg align=center style="float:right;height:200px"  alt="South cove with aurora">
-	  <ul>
-		  <li><a href="minutes2025.html">2025 Meeting Minutes</a><br></li>
-		  <li><a href="2025-Budget.pdf">2025 Approved Budget</a><br></li>
-		  <li><a href="minutes2024.html">2024 Meeting Minutes</a><br></li>
-		  <li><a href="2024-SCHOA-Budget.pdf">2024 Approved Budget</a><br></li>
-		  <li><a href="minutes2023.html">2023 Meeting Minutes</a><br></li>
-	  	  <li><a href="rs-summary.pdf">Reserve study summary</a><br></li>
-	  	  <li><a href="rs-full.pdf">Reserve study full report</a><br></li>
-		  <li><a href="PLMD.pdf">Pattison Lake Management District flyer</a><br></li>
-		  <li><a href="https://www.pattisonlakeassociation.com/">Pattison Lake Association</a><br></li>
-		  <li><a href="https://www.pattisonlmd.org/">Pattison Lake Management District</a><br></li>
-		  <li><a href="pattison-lake.html">Pattison Lake Association Letter</a><br></li>
-		  <li><a href="bylaws.pdf">SCHOA Bylaws</a><br></li>
-		  <li><a href="plat-map.pdf">SCHOA Plat Map</a><br></li>
-		  <li><a href="StormwaterMap.pdf">SCHOA Stormwater pipe  Map</a><br></li>
-		  <li><a href="boat.html">Rules for use of the watercraft rack</a><br></li>
-		  <li><a href="covenants.pdf">SCHOA Covenants</a><br></li>
-		  <li><a href="CCR-short-version.html">Short version of the SCHOA Covenants</a><br></li>
-		  <li><a href="otherdocs.html">Other Important documents</a><br></li>
-		  Do you have content for this page? Please contact Gordon Baldwin and we will get it added.
-	  </ul>
-  </body>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SCHOA</h1>
+            <p class="subtitle">South Cove Homeowners Association</p>
+        </header>
+
+        <div class="news-banner">
+            <a href="https://schoalacey.com/newsletter-2.docx">📰 Read the Latest SCHOA Newsletter</a>
+        </div>
+
+        <div class="main-content">
+            <div class="events-section">
+                <h2>📅 Upcoming Events & Meetings</h2>
+                
+                <div class="event-item">
+                    <div class="event-date">Tuesday, July 22, 2025</div>
+                    <div class="event-title">Board Meeting</div>
+                    <div class="event-details">7:00 PM at the Kirschner home, 8025 68th Ave</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Every Saturday</div>
+                    <div class="event-title">Walk About/Talk About</div>
+                    <div class="event-details">10:00 AM, corner of Mirror Court & 68th Loop<br>
+                    <em>Come meet your neighbors and get some exercise!</em></div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">July 13, 2025</div>
+                    <div class="event-title">PLA Flotilla</div>
+                    <div class="event-details">Join us for this community water event</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">August 17, 2025</div>
+                    <div class="event-title">South Cove Summer Picnic</div>
+                    <div class="event-details">Annual community gathering - don't miss it!</div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="aurora-image">
+                    <img src="aurora.jpeg" alt="Beautiful aurora over South Cove">
+                    <div class="aurora-caption">South Cove with Aurora</div>
+                </div>
+
+                <div class="quick-links">
+                    <h3>🔗 Quick Links</h3>
+                    <a href="https://www.pattisonlakeassociation.com/" class="quick-link external-link">Pattison Lake Association</a>
+                    <a href="https://www.pattisonlmd.org/" class="quick-link external-link">Pattison Lake Management District</a>
+                    <a href="bylaws.pdf" class="quick-link">SCHOA Bylaws</a>
+                    <a href="covenants.pdf" class="quick-link">SCHOA Covenants</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="documents-section">
+            <h2>📋 Community Documents</h2>
+            <div class="document-grid">
+                <div class="document-category">
+                    <h3>Meeting Minutes & Budgets</h3>
+                    <ul>
+                        <li><a href="minutes2025.html">2025 Meeting Minutes</a></li>
+                        <li><a href="2025-Budget.pdf">2025 Approved Budget</a></li>
+                        <li><a href="minutes2024.html">2024 Meeting Minutes</a></li>
+                        <li><a href="2024-SCHOA-Budget.pdf">2024 Approved Budget</a></li>
+                        <li><a href="minutes2023.html">2023 Meeting Minutes</a></li>
+                    </ul>
+                </div>
+
+                <div class="document-category">
+                    <h3>Planning & Studies</h3>
+                    <ul>
+                        <li><a href="rs-summary.pdf">Reserve Study Summary</a></li>
+                        <li><a href="rs-full.pdf">Reserve Study Full Report</a></li>
+                        <li><a href="plat-map.pdf">SCHOA Plat Map</a></li>
+                        <li><a href="StormwaterMap.pdf">Stormwater Pipe Map</a></li>
+                    </ul>
+                </div>
+
+                <div class="document-category">
+                    <h3>Rules & Covenants</h3>
+                    <ul>
+                        <li><a href="bylaws.pdf">SCHOA Bylaws</a></li>
+                        <li><a href="covenants.pdf">SCHOA Covenants</a></li>
+                        <li><a href="CCR-short-version.html">Short Version of Covenants</a></li>
+                        <li><a href="boat.html">Watercraft Rack Rules</a></li>
+                    </ul>
+                </div>
+
+                <div class="document-category">
+                    <h3>Lake Association</h3>
+                    <ul>
+                        <li><a href="PLMD.pdf">PLMD Flyer</a></li>
+                        <li><a href="pattison-lake.html">PLA Letter</a></li>
+                        <li><a href="https://www.pattisonlakeassociation.com/" class="external-link">Pattison Lake Association</a></li>
+                        <li><a href="https://www.pattisonlmd.org/" class="external-link">Lake Management District</a></li>
+                    </ul>
+                </div>
+
+                <div class="document-category">
+                    <h3>Additional Resources</h3>
+                    <ul>
+                        <li><a href="otherdocs.html">Other Important Documents</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h3>💬 Have Content for This Page?</h3>
+            <p>Please contact Gordon Baldwin and we will get it added to the website.</p>
+        </div>
+    </div>
+</body>
 </html>
